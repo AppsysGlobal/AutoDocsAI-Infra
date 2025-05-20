@@ -1,24 +1,35 @@
 variable "tenancy_ocid" {
-  description = "OCI Tenancy OCID"
-  type        = string
+  type = string
 }
 
 variable "user_ocid" {
-  description = "OCI User OCID"
-  type        = string
+  type = string
 }
 
 variable "fingerprint" {
-  description = "OCI API Key Fingerprint"
-  type        = string
+  type = string
 }
 
 variable "private_key_path" {
-  description = "Path to the private key file"
-  type        = string
+  type = string
 }
 
 variable "region" {
-  description = "OCI region (e.g., us-ashburn-1)"
-  type        = string
+  type = string
+}
+
+variable "namespace" {
+  type = string
+}
+
+variable "bucket_name" {
+  type = string
+}
+
+variable "compartment_id" {
+  type = string
+}
+
+variable "oic_ocid" {
+  type = string
 }
