@@ -14,9 +14,9 @@ pipeline {
   }
 
   stages {
-    stage('Checkout Code') {
+    stage('Clone Repo') {
       steps {
-        git branch: 'main', url: 'https://github.com/AppsysGlobal/AutoDocsAI-Infra.git'
+        git branch: 'main', url: 'https://github.com/<your-org>/<your-repo>.git'
       }
     }
 
@@ -26,19 +26,33 @@ pipeline {
       }
     }
 
-    stage('Terraform Import') {
+    stage('Import Bucket (safe)') {
       steps {
         sh '''
+          echo "Temporarily removing bucket block to bypass namespace bug"
+          cp main.tf main.tf.bak
+          sed -i '/resource "oci_objectstorage_bucket"/,/}/d' main.tf
+
           terraform import oci_objectstorage_bucket.my_bucket "${TF_VAR_namespace}/${TF_VAR_bucket_name}"
+
+          echo "Restoring full main.tf"
+          mv main.tf.bak main.tf
+        '''
+      }
+    }
+
+    stage('Import OIC') {
+      steps {
+        sh '''
           terraform import oci_integration_integration_instance.my_oic "${TF_VAR_oic_ocid}"
         '''
       }
     }
 
-    stage('Save Terraform State Snapshot') {
+    stage('Terraform Plan') {
       steps {
-        sh 'terraform show > imported_state.txt'
-        archiveArtifacts artifacts: 'imported_state.txt'
+        sh 'terraform plan > imported_plan.txt'
+        archiveArtifacts artifacts: 'imported_plan.txt'
       }
     }
   }
