@@ -28,16 +28,13 @@ pipeline {
     }
 
     stage('Import OIC') {
-      steps {
-        sh '''
-          cp main.tf main.tf.bak
-          sed -i '/resource "oci_integration_integration_instance"/,/}/d' main.tf
-          echo 'resource "oci_integration_integration_instance" "my_oic" {}' >> main.tf
-          terraform import oci_integration_integration_instance.my_oic "${TF_VAR_oic_ocid}"
-          mv main.tf.bak main.tf
-        '''
-      }
-    }
+  steps {
+    sh '''
+      terraform import oci_integration_integration_instance.my_oic "${TF_VAR_oic_ocid}"
+    '''
+  }
+}
+
 
     stage('Import Compute') {
       steps {
