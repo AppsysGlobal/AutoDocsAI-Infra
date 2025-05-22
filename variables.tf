@@ -18,7 +18,7 @@ variable "region" {
   type = string
 }
 
-variable "namespace" {
+variable "bucket_namespace" {
   type = string
 }
 
