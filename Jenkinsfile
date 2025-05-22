@@ -24,16 +24,21 @@ pipeline {
     }
 
     stage('Import Bucket') {
-      steps {
-        sh '''
-          cp main.tf main.tf.bak
-          sed -i '/resource "oci_objectstorage_bucket"/,/}/d' main.tf
-          echo 'resource "oci_objectstorage_bucket" "my_bucket" {}' >> main.tf
-          terraform import oci_objectstorage_bucket.my_bucket "${TF_VAR_namespace}/${TF_VAR_bucket_name}"
-          mv main.tf.bak main.tf
-        '''
-      }
-    }
+  steps {
+    sh '''
+      cp main.tf main.tf.bak
+      sed -i '/resource "oci_objectstorage_bucket"/,/}/d' main.tf
+      echo 'resource "oci_objectstorage_bucket" "my_bucket" {}' >> main.tf
+
+      terraform import \
+        -var="namespace=${TF_VAR_namespace}" \
+        oci_objectstorage_bucket.my_bucket "${TF_VAR_namespace}/${TF_VAR_bucket_name}"
+
+      mv main.tf.bak main.tf
+    '''
+  }
+}
+
 
     stage('Import OIC') {
       steps {
