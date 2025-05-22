@@ -33,3 +33,13 @@ variable "compartment_id" {
 variable "oic_ocid" {
   type = string
 }
+
+variable "compute_ocid" {
+  type        = string
+  description = "OCID of the existing compute instance"
+}
+
+variable "atp_ocid" {
+  type        = string
+  description = "OCID of the existing Autonomous Transaction Processing DB"
+}
