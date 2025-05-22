@@ -20,15 +20,15 @@ pipeline {
         sh 'terraform init'
       }
     }
+
     stage('Print TF user') {
-  steps {
-    sh 'echo "TF_VAR_user_ocid=${TF_VAR_user_ocid}"'
-  }
+      steps {
+        sh 'echo "TF_VAR_user_ocid=${TF_VAR_user_ocid}"'
+      }
+    }
 
     stage('Import OIC') {
       steps {
-
-}
         sh '''
           cp main.tf main.tf.bak
           sed -i '/resource "oci_integration_integration_instance"/,/}/d' main.tf
@@ -38,8 +38,6 @@ pipeline {
         '''
       }
     }
-
-   
 
     stage('Import Compute') {
       steps {
