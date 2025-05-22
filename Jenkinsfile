@@ -29,9 +29,8 @@ pipeline {
 
     stage('Import OIC') {
   steps {
-    sh '''
-     $ terraform import oci_integration_integration_instance.test_integration_instance "id""
-    '''
+   sh "terraform import oci_integration_integration_instance.my_oic ${TF_VAR_oic_ocid}"
+
   }
 }
 
