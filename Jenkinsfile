@@ -26,7 +26,7 @@ pipeline {
 stage('Import Bucket') {
   steps {
     sh '''
-      terraform import oci_objectstorage_bucket.my_bucket "${TF_VAR_namespace}/${TF_VAR_bucket_name}"
+      terraform import oci_objectstorage_bucket.my_bucket "${TF_VAR_bucket_namespace}/${TF_VAR_bucket_name}"
     '''
   }
 }
