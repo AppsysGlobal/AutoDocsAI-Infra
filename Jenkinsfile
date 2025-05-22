@@ -1,3 +1,4 @@
+// Jenkinsfile
 pipeline {
   agent any
 
@@ -11,6 +12,8 @@ pipeline {
     TF_VAR_namespace        = 'idyhabl91i8j'
     TF_VAR_bucket_name      = 'Doc-understanding-storage'
     TF_VAR_oic_ocid         = 'ocid1.integrationinstance.oc1.iad.amaaaaaaggm52bqazc6ru5y4ocmn7dcta5kvf7lyofvccesfwtcefksuxlqa'
+    TF_VAR_compute_ocid     = 'ocid1.instance.oc1.iad.anuwcljtggm52bqcicnvzligentjkfjr7yfglykfg3c5uu2enyhw3uhplxfa'
+    TF_VAR_atp_ocid         = 'ocid1.autonomousdatabase.oc1.iad.anuwcljrggm52bqaeg3ituate5kw5gejvxgppt7qcwfiv3w6yzdscadn76dq'
   }
 
   stages {
@@ -26,19 +29,13 @@ pipeline {
       }
     }
 
-    stage('Import Bucket (safe)') {
+    stage('Import Bucket') {
       steps {
         sh '''
-          echo "Minimally injecting placeholder bucket block to satisfy import syntax..."
           cp main.tf main.tf.bak
-
-          # Replace actual block with placeholder
           sed -i '/resource "oci_objectstorage_bucket"/,/}/d' main.tf
           echo 'resource "oci_objectstorage_bucket" "my_bucket" {}' >> main.tf
-
           terraform import oci_objectstorage_bucket.my_bucket "${TF_VAR_namespace}/${TF_VAR_bucket_name}"
-
-          echo "Restoring original full main.tf"
           mv main.tf.bak main.tf
         '''
       }
@@ -46,7 +43,37 @@ pipeline {
 
     stage('Import OIC') {
       steps {
-        sh 'terraform import oci_integration_integration_instance.my_oic "${TF_VAR_oic_ocid}"'
+        sh '''
+          cp main.tf main.tf.bak
+          sed -i '/resource "oci_integration_integration_instance"/,/}/d' main.tf
+          echo 'resource "oci_integration_integration_instance" "my_oic" {}' >> main.tf
+          terraform import oci_integration_integration_instance.my_oic "${TF_VAR_oic_ocid}"
+          mv main.tf.bak main.tf
+        '''
+      }
+    }
+
+    stage('Import Compute') {
+      steps {
+        sh '''
+          cp main.tf main.tf.bak
+          sed -i '/resource "oci_core_instance"/,/}/d' main.tf
+          echo 'resource "oci_core_instance" "my_instance" {}' >> main.tf
+          terraform import oci_core_instance.my_instance "${TF_VAR_compute_ocid}"
+          mv main.tf.bak main.tf
+        '''
+      }
+    }
+
+    stage('Import ATP') {
+      steps {
+        sh '''
+          cp main.tf main.tf.bak
+          sed -i '/resource "oci_database_autonomous_database"/,/}/d' main.tf
+          echo 'resource "oci_database_autonomous_database" "my_atp" {}' >> main.tf
+          terraform import oci_database_autonomous_database.my_atp "${TF_VAR_atp_ocid}"
+          mv main.tf.bak main.tf
+        '''
       }
     }
 
@@ -54,6 +81,13 @@ pipeline {
       steps {
         sh 'terraform plan > imported_plan.txt'
         archiveArtifacts artifacts: 'imported_plan.txt'
+      }
+    }
+
+    stage('Show State') {
+      steps {
+        sh 'terraform show > full_state.txt'
+        archiveArtifacts artifacts: 'full_state.txt'
       }
     }
   }
