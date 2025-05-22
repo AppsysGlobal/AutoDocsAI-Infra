@@ -59,13 +59,6 @@ pipeline {
       }
     }
 
-    stage('Terraform Plan') {
-      steps {
-        sh 'terraform plan > imported_plan.txt'
-        archiveArtifacts artifacts: 'imported_plan.txt'
-      }
-    }
-
     stage('Show State') {
       steps {
         sh 'terraform show > full_state.txt'
