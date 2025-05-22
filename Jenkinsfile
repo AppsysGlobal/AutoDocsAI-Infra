@@ -19,7 +19,7 @@ pipeline {
   stages {
     stage('Clone Repo') {
       steps {
-        git credentialsId: 'Github-Cred', url: 'https://github.com/AppsysGlobal/AutoDocsAI-Infra.git'
+       git url: 'https://github.com/AppsysGlobal/AutoDocsAI-Infra.git'
       }
     }
 
