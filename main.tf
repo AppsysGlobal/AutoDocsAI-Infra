@@ -9,7 +9,7 @@ provider "oci" {
 resource "oci_objectstorage_bucket" "my_bucket" {
   provider       = oci
   name           = var.bucket_name
-  namespace      = var.namespace
+  namespace      = var.bucket_namespace
   compartment_id = var.compartment_id
 }
 
