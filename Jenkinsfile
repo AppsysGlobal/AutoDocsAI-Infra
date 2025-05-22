@@ -17,12 +17,6 @@ pipeline {
   }
 
   stages {
-    stage('Clone Repo') {
-      steps {
-       git url: 'https://github.com/AppsysGlobal/AutoDocsAI-Infra.git'
-      }
-    }
-
     stage('Terraform Init') {
       steps {
         sh 'terraform init'
