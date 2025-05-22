@@ -23,13 +23,18 @@ pipeline {
       }
     }
 
-  stage('Import Bucket') {
+stage('Import Bucket') {
   steps {
     sh '''
+      echo "NAMESPACE=${TF_VAR_namespace}"
+      echo "BUCKET_NAME=${TF_VAR_bucket_name}"
+      echo "COMPARTMENT_ID=${TF_VAR_compartment_id}"
+
       terraform import oci_objectstorage_bucket.my_bucket "${TF_VAR_namespace}/${TF_VAR_bucket_name}"
     '''
   }
 }
+
 
 
 
