@@ -27,7 +27,8 @@ stage('Import Bucket') {
   steps {
     sh '''
       echo "Importing bucket with ID: ${TF_VAR_namespace}/${TF_VAR_bucket_name}"
-      terraform import oci_objectstorage_bucket.test_bucket "n/{namespaceName}/b/{bucketName}" 
+     terraform import oci_objectstorage_bucket.my_bucket "${TF_VAR_namespace}/${TF_VAR_bucket_name}"
+ 
     '''
   }
 }
