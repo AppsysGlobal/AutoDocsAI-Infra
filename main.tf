@@ -6,12 +6,6 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_objectstorage_bucket" "my_bucket" {
-  provider       = oci
-  name           = var.bucket_name
-  namespace      = var.bucket_namespace
-  compartment_id = var.compartment_id
-}
 
 resource "oci_integration_integration_instance" "my_oic" {
   # placeholder for import
