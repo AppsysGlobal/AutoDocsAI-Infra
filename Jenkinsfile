@@ -33,6 +33,12 @@ pipeline {
       }
     }
 
+    stage('Print TF user') {
+  steps {
+    sh 'echo "TF_VAR_user_ocid=${TF_VAR_user_ocid}"'
+  }
+}
+
     stage('Import Compute') {
       steps {
         sh '''
