@@ -9,7 +9,7 @@ pipeline {
     TF_VAR_private_key_path = '/var/lib/jenkins/.oci/Optimuskey_pkcs1.pem'
     TF_VAR_region           = 'us-ashburn-1'
     TF_VAR_compartment_id   = 'ocid1.tenancy.oc1..aaaaaaaasiigfpcj7o4xn6o5r725u5zofb5tfmfb57vzqqsirlnkhg6lpiva'
-    TF_VAR_namespace        = 'idyhabl91i8j'
+    TF_VAR_bucket_namespace        = 'idyhabl91i8j'
     TF_VAR_bucket_name      = 'Doc-understanding-storage'
     TF_VAR_oic_ocid         = 'ocid1.integrationinstance.oc1.iad.amaaaaaaggm52bqazc6ru5y4ocmn7dcta5kvf7lyofvccesfwtcefksuxlqa'
     TF_VAR_compute_ocid     = 'ocid1.instance.oc1.iad.anuwcljtggm52bqcicnvzligentjkfjr7yfglykfg3c5uu2enyhw3uhplxfa'
