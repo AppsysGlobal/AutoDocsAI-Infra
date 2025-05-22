@@ -7,11 +7,17 @@ provider "oci" {
 }
 
 resource "oci_objectstorage_bucket" "my_bucket" {
-  name           = "placeholder"
-  namespace      = var.namespace
-  compartment_id = var.compartment_id
+  # placeholder for import
 }
 
 resource "oci_integration_integration_instance" "my_oic" {
-  id = var.oic_ocid
+  # placeholder for import
+}
+
+resource "oci_core_instance" "my_instance" {
+  # placeholder for import
+}
+
+resource "oci_database_autonomous_database" "my_atp" {
+  # placeholder for import
 }
