@@ -18,13 +18,6 @@ variable "region" {
   type = string
 }
 
-variable "bucket_namespace" {
-  type = string
-}
-
-variable "bucket_name" {
-  type = string
-}
 
 variable "compartment_id" {
   type = string
